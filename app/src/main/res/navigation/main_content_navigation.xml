@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_content_navigation"
+    app:startDestination="@id/main_content">
+
+    <fragment
+        android:id="@+id/main_content"
+        android:name="com.release_next_project_safa_ptintln_out_systems_release_project.presentation.fragment.screen.MainContent"
+        android:label="fragment_main_content"
+        tools:layout="@layout/fragment_main_content">
+
+        <action
+            android:id="@+id/action_main_content_to_user_changes_task"
+            app:destination="@+id/user_changes_task" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/user_changes_task"
+        android:name="com.release_next_project_safa_ptintln_out_systems_release_project.presentation.fragment.screen.UserChangesTask"
+        android:label="@string/change_the_aim"
+        tools:layout="@layout/fragment_user_changes_task" />
+
+
+</navigation>
