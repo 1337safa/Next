@@ -12,15 +12,15 @@ import android.widget.TextView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
+import com.release_next_project_safa_ptintln_out_systems_release_project.core.logD
+import com.release_next_project_safa_ptintln_out_systems_release_project.core.logE
 import com.release_next_project_safa_ptintln_out_systems_release_project.databinding.FragmentUserChangesTaskBinding
 import com.release_next_project_safa_ptintln_out_systems_release_project.domain.models.UserTaskInfo
 
-
 class UserChangesTask(): Fragment() {
 
-    private val binding by lazy {
-        FragmentUserChangesTaskBinding.inflate(layoutInflater)
-    }
+    private var _binding: FragmentUserChangesTaskBinding? = null
+    private val binding get() = _binding!!
 
     private lateinit var args: UserTaskInfo
 
@@ -29,7 +29,16 @@ class UserChangesTask(): Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return binding.root
+
+        _binding = FragmentUserChangesTaskBinding.inflate(inflater, container, false)
+        val view = binding.root
+
+        return view
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -43,7 +52,7 @@ class UserChangesTask(): Fragment() {
                 initView(args)
 
             } catch (e: Exception) {
-                Log.d("MyLog", "UserChangesTask args: $e")
+                logE("UserChangesTask args: $e")
             }
 
         }
@@ -85,7 +94,9 @@ class UserChangesTask(): Fragment() {
     }
 
     private fun initView(userTask: UserTaskInfo) {
+
         binding.edtvUserTaskChange.setText(userTask.userTask)
+
     }
 
     companion object {

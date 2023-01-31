@@ -38,7 +38,9 @@ const val MAX_COUNT_OF_TASK = 150
 
 class MainContent : Fragment(), UserLongClickOnUserTask, ReportUserActionsInUserTaskInRcView {
 
-    private lateinit var binding: FragmentMainContentBinding
+    private var _binding: FragmentMainContentBinding? = null
+    private val binding get() = _binding!!
+    /*  :)  */
 
     private val mainContentViewModel by viewModel<MainContentViewModel>()
     private val sqlManager: SqlManager by inject()
@@ -71,20 +73,33 @@ class MainContent : Fragment(), UserLongClickOnUserTask, ReportUserActionsInUser
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentMainContentBinding.inflate(inflater, container, false)
+        _binding = FragmentMainContentBinding.inflate(inflater, container, false)
+        val view = binding.root
 
+        init()
+        ifDataExistShowDataInEditTextUserNewTask(savedInstanceState)
+
+        return view
+    }
+
+    private fun init() {
+        this.mainContentViewModel.getUserTasks()
         showProgressBar(binding.mainProgressBar)
+    }
+
+    private fun ifDataExistShowDataInEditTextUserNewTask(savedInstanceState: Bundle?) {
 
         val userTasks =
             savedInstanceState?.getString(SAVE_USER_TASK_BUNDLE)
-
         if (userTasks != null) {
             binding.edtvUserNewTask.setText(userTasks)
         }
 
-        this.mainContentViewModel.getUserTasks()
+    }
 
-        return binding.root
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
