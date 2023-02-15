@@ -1,145 +1,63 @@
 package com.release_next_project_safa_ptintln_out_systems_release_project.presentation.fragment.viewmodel
 
-import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.release_next_project_safa_ptintln_out_systems_release_project.data.data_serach.local.storage.SqlManager
 import com.release_next_project_safa_ptintln_out_systems_release_project.domain.models.UserTaskInfo
-import com.release_next_project_safa_ptintln_out_systems_release_project.domain.usecase.*
-import com.release_next_project_safa_ptintln_out_systems_release_project.presentation.fragment.recycler_view.user_task.insterfaces.UserClickOnTaskCheckBox
-import com.release_next_project_safa_ptintln_out_systems_release_project.presentation.fragment.recycler_view.user_task.insterfaces.UserInteractsWithTasks
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
 class MainContentViewModel(
+    sqlManager: SqlManager
+) : ViewModel() {
 
-    private val communicateWithLocalSqlDatabaseUseCase: CommunicateWithLocalSqlDatabaseUseCase
+    private val userTaskInfoDao = sqlManager.getUserTaskInfoDao()
 
-) : ViewModel(), UserInteractsWithTasks, UserClickOnTaskCheckBox {
-
-    private val userTasksMutableLiveData: MutableLiveData<ArrayList<UserTaskInfo>> =
-        MutableLiveData<ArrayList<UserTaskInfo>>()
-    val userTasksLiveData: LiveData<ArrayList<UserTaskInfo>> = userTasksMutableLiveData
-
-    init {
+    fun insertUserTaskToSql(userTaskInfo: UserTaskInfo) {
 
         try {
-
-            communicateWithLocalSqlDatabaseUseCase.openDb()
-            /*
-            I don't use coroutines here because when I run the application
-            for the first time, the local database doesn't have time to open.
-            */
-
+            viewModelScope.launch(Dispatchers.IO) {
+                val doInsertToDb = async {
+                    userTaskInfoDao.insertUserTaskInfo(userTaskInfo = userTaskInfo)
+                }
+                doInsertToDb.await()
+            }
         } catch (e: Exception) {
-            Log.e("MyLog", "MainContentViewModel openDb exception: $e")
+            throw e
         }
 
     }
 
-    fun insertUserTaskToSql(userTask: UserTaskInfo) {
+    fun getUserTasks(): Flow<List<UserTaskInfo>> {
+        return userTaskInfoDao.getUserTasks()
+    }
 
-        viewModelScope.launch(Dispatchers.IO) {
-
-            val doInsertToDb = async {
-
-                communicateWithLocalSqlDatabaseUseCase.insertUserTaskToSql(userTask)
-
+    fun removeUserTaskByIdInSql(ID: Int) {
+        try {
+            viewModelScope.launch(Dispatchers.IO) {
+                userTaskInfoDao.removeById(ID)
             }
-
-            doInsertToDb.await()
-
+        } catch (e: Exception) {
+            throw e
         }
-
     }
 
-    fun getUserTasks() {
-
-        viewModelScope.launch(Dispatchers.IO) {
-
-            val doGetUserTasks = async {
-
-                this@MainContentViewModel.userTasksMutableLiveData.postValue(
-
-                    communicateWithLocalSqlDatabaseUseCase.getUserTasks()
-
+    fun updateUserTaskInfo(userTaskInfo: UserTaskInfo) {
+        try {
+            viewModelScope.launch(Dispatchers.IO) {
+                userTaskInfoDao.updateUserTaskInfoById(
+                    userTaskInfo
                 )
-
             }
-
-            doGetUserTasks.await()
-
+        } catch (e: Exception) {
+            throw e
         }
-
-    }
-
-    fun deleteUserTaskByIdInSql(ID: String) {
-
-        viewModelScope.launch(Dispatchers.IO) {
-
-            val doDeleteUserTaskInfo = async {
-
-                communicateWithLocalSqlDatabaseUseCase.deleteUserTaskByIdInSql(ID)
-
-            }
-
-            doDeleteUserTaskInfo.await()
-
-        }
-
-    }
-
-    fun updateUserTaskInfo(userTask: UserTaskInfo) {
-
-        viewModelScope.launch(Dispatchers.IO) {
-
-            val doUpdateUserTaskInfo = async {
-
-                communicateWithLocalSqlDatabaseUseCase.updateUserTask(userTask)
-
-            }
-
-            doUpdateUserTaskInfo.await()
-
-        }
-
-    }
-
-    override fun removeUserTaskByIdInSql(ID: String) {
-
-        deleteUserTaskByIdInSql(ID)
-
-    }
-
-    override fun updateUserTaskInSqlIsUserCompleteTaskOrNot(userTask: UserTaskInfo) {
-
-        updateUserTaskInfo(userTask)
-
     }
 
     override fun onCleared() {
-
-        try {
-
-            viewModelScope.launch(Dispatchers.IO) {
-
-                val doCloseDb = async {
-                    communicateWithLocalSqlDatabaseUseCase.closeDb()
-                }
-
-                doCloseDb.await()
-
-            }
-
-        } catch (e: Exception) {
-            Log.e("MyLog", "mainContentViewModel closeDb exception: $e")
-        }
-
-
         super.onCleared()
-
     }
 
 }

@@ -48,7 +48,8 @@ class UserChangesTask(): Fragment() {
 
             try {
 
-                args = requireArguments().getParcelable<UserTaskInfo>(USER_TASK_KEY) as UserTaskInfo
+                args = requireArguments().getParcelable<UserTaskInfo>(USER_TASK_KEY)
+                        as UserTaskInfo
                 initView(args)
 
             } catch (e: Exception) {
@@ -60,32 +61,28 @@ class UserChangesTask(): Fragment() {
         binding.edtvUserTaskChange.imeOptions = EditorInfo.IME_ACTION_DONE
         binding.edtvUserTaskChange.setRawInputType(InputType.TYPE_CLASS_TEXT)
 
-        binding.edtvUserTaskChange.setOnEditorActionListener(object: TextView.OnEditorActionListener {
+        binding.edtvUserTaskChange.setOnEditorActionListener { v, actionId, event ->
+            val handled = false
 
-            override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
-                val handled = false
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
 
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                val userTask = binding.edtvUserTaskChange.text.toString()
 
-                    val userTask = binding.edtvUserTaskChange.text.toString()
+                if (userTask.isNotEmpty()) {
+                    args.userTask = userTask
 
-                    if (userTask.isNotEmpty()) {
-                        args.userTask = userTask
+                    parentFragmentManager.setFragmentResult(
+                        USER_TASK_REQUEST_KEY,
+                        bundleOf(USER_TASK_KEY to args)
+                    )
 
-                        parentFragmentManager.setFragmentResult(
-                            USER_TASK_REQUEST_KEY,
-                            bundleOf(USER_TASK_KEY to args)
-                        )
+                    NavHostFragment.findNavController(this@UserChangesTask).popBackStack()
 
-                        NavHostFragment.findNavController(this@UserChangesTask).popBackStack()
-
-                    }
                 }
-
-                return handled
             }
 
-        })
+            handled
+        }
 
         binding.btnGoBack.setOnClickListener(View.OnClickListener {
             NavHostFragment.findNavController(this@UserChangesTask).popBackStack()

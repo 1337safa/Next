@@ -4,11 +4,11 @@ import android.graphics.Canvas
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.release_next_project_safa_ptintln_out_systems_release_project.R
-import com.release_next_project_safa_ptintln_out_systems_release_project.presentation.fragment.recycler_view.user_task.insterfaces.UserDeleteTask
+import com.release_next_project_safa_ptintln_out_systems_release_project.presentation.fragment.recycler_view.user_task.insterfaces.UserRemoveTaskBySwipe
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator
 
 class ItemTouchHelperSwipe(
-    private val userDeleteTask: UserDeleteTask
+    private val userDeleteTask: UserRemoveTaskBySwipe
     ) : ItemTouchHelper
     .SimpleCallback(0, ItemTouchHelper.LEFT) {
 
@@ -21,13 +21,9 @@ class ItemTouchHelperSwipe(
         }
 
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-
             if (direction == ItemTouchHelper.LEFT) {
-
                 userDeleteTask.removeByIdFromSql(viewHolder.absoluteAdapterPosition)
-
             }
-
         }
 
         override fun onChildDraw(

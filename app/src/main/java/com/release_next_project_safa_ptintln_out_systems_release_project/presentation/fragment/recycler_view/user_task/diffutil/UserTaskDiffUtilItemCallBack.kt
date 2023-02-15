@@ -6,11 +6,11 @@ import com.release_next_project_safa_ptintln_out_systems_release_project.domain.
 class UserTaskDiffUtilItemCallBack(): DiffUtil.ItemCallback<UserTaskInfo>() {
 
     override fun areItemsTheSame(oldItem: UserTaskInfo, newItem: UserTaskInfo): Boolean {
-        return oldItem.userTaskID == newItem.userTaskID
+        return oldItem.userTaskInfoID == newItem.userTaskInfoID
     }
 
     override fun areContentsTheSame(oldItem: UserTaskInfo, newItem: UserTaskInfo): Boolean {
-        return oldItem.equals(newItem)
+        return oldItem == newItem
     }
 
 

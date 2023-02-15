@@ -9,7 +9,7 @@
     <string name="save">Save</string>
     <string name="some_task">Some goal</string>
     <string name="user_task">Your goal…</string>
-    <string name="exceeding_the_limit_of_tasks">Maximum number of tasks exceeded</string>
-    <string name="ok">Ok</string>
+    <string name="exceeding_the_limit_of_tasks">Maximum number of tasks exceeded!</string>
+    <string name="ok">OK</string>
 
 </resources>
