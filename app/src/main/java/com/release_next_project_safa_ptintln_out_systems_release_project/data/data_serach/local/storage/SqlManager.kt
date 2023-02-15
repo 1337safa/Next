@@ -30,7 +30,8 @@ class SqlManager(context: Context) {
         if (db != null) {
             interactionWithLocalDatabaseSqlForInsert =
                 InteractionWithLocalDatabaseSqlForInsert(db!!)
-            interactionWithLocalDatabaseSqlForRead = InteractionWithLocalDatabaseSqlForRead()
+            interactionWithLocalDatabaseSqlForRead =
+                InteractionWithLocalDatabaseSqlForRead()
             interactionWithLocalDatabaseSqlForDelete =
                 InteractionWithLocalDatabaseSqlForDelete(db!!)
             interactionWithLocalDatabaseSqlForUpdate =
@@ -45,7 +46,8 @@ class SqlManager(context: Context) {
 
             interactionWithLocalDatabaseSqlForInsert!!.insertNewUserTaskInfo(
                 SqlConstantInfo.TABLE_NAME, SqlConstantInfo.COLUMN_NAME_USER_TASK,
-                SqlConstantInfo.COLUMN_NAME_USER_IS_COMPLETE_TASK, userTaskInfo, null
+                SqlConstantInfo.COLUMN_NAME_USER_IS_COMPLETE_TASK, userTaskInfo,
+                null
             )
 
         }

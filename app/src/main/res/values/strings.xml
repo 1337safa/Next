@@ -2,14 +2,14 @@
 
     <string name="app_name">Next</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="aims">Цели</string>
-    <string name="new_task">Введите что-нибудь…</string>
-    <string name="change_the_aim">Измените цель</string>
-    <string name="your_aim">Ваша цель…</string>
-    <string name="save">Сохранить</string>
-    <string name="some_task">Какая-то задача</string>
-    <string name="user_task">Ваша задача…</string>
-    <string name="exceeding_the_limit_of_tasks">Превышено максимальное количество задач</string>
-    <string name="ok">Ок</string>
+    <string name="aims">Goals</string>
+    <string name="new_task">Enter something…</string>
+    <string name="change_the_aim">Change the goal…</string>
+    <string name="your_aim">Your goal…</string>
+    <string name="save">Save</string>
+    <string name="some_task">Some goal</string>
+    <string name="user_task">Your goal…</string>
+    <string name="exceeding_the_limit_of_tasks">Maximum number of tasks exceeded</string>
+    <string name="ok">Ok</string>
 
 </resources>

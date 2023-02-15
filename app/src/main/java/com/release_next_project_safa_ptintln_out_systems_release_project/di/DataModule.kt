@@ -8,9 +8,7 @@ import org.koin.dsl.module
 val dataModule = module {
 
     single<UserTaskLocalSqlRepository> {
-
         UserTaskLocalSqlRepositoryImpl(sqlManager = get())
-
     }
 
     single<SqlManager> {

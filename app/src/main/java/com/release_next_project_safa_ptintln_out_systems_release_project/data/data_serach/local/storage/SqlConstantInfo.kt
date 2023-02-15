@@ -2,7 +2,7 @@ package com.release_next_project_safa_ptintln_out_systems_release_project.data.d
 
 object SqlConstantInfo {
 
-    const val DATABASE_NAME = "next_database_sq.db"
+    const val DATABASE_NAME = "next_database_sql.db"
     const val DATABASE_VERSION = 1
 
     const val TABLE_NAME = "next_table"
