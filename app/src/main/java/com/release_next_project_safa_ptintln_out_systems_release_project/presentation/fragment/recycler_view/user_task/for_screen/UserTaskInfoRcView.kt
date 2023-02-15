@@ -29,11 +29,15 @@ class UserTaskInfoRcView(
 
     override fun onBindViewHolder(viewHolder: ContentHolder, position: Int) {
         viewHolder.binding.userTask.text = getItem(position).userTask
-        viewHolder.binding.userCheckBox.isChecked = getItem(position).userIsCompleteTask
-        longClickOnItemViewListener(viewHolder.binding.root, getItem(position))
+        viewHolder.binding.userCheckBox.isChecked = getItem(
+            viewHolder.absoluteAdapterPosition
+        ).userIsCompleteTask
+        longClickOnItemViewListener(viewHolder.binding.root, getItem(
+            viewHolder.absoluteAdapterPosition
+        ))
         viewHolder.binding.userCheckBox.setOnCheckedChangeListener { buttonView, isChecked ->
             userInteractsWithTasks.userClickOnCheckBoxFromUserTaskInfoRcView(
-                getItem(position), isChecked
+                getItem(viewHolder.absoluteAdapterPosition), isChecked
             )
         }
     }
@@ -53,7 +57,7 @@ class UserTaskInfoRcView(
         }
         val current = currentList.toMutableList()
         current.removeAt(position)
-        current.addAll(current)
+        submitList(current)
     }
 
 }

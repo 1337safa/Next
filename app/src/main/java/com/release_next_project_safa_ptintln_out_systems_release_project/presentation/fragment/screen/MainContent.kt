@@ -228,6 +228,7 @@ class MainContent : Fragment(), ReportUserActionsInUserTaskInRcView, UserInterac
     override fun userClickOnCheckBoxFromUserTaskInfoRcView(
         userTaskInfo: UserTaskInfo, isChecked: Boolean
     ) {
+        userTaskInfo.userIsCompleteTask = isChecked
         mainContentViewModel.updateUserTaskInfo(
             userTaskInfo = userTaskInfo
         )
